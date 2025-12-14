@@ -1,0 +1,67 @@
+---
+// Custom footer component
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default><slot /></Default>
+
+<footer class="custom-footer">
+	<div class="footer-content">
+		<p class="footer-links">
+			<span class="footer-title">© Simple Likes</span>
+			<span>·</span>
+			<a href="https://statamic.com/addons/graffio/simple-likes" target="_blank" rel="noopener">Statamic Marketplace</a>
+			<span>·</span>
+			<a href="https://github.com/mikomagni/simple-likes" target="_blank" rel="noopener">GitHub</a>
+			<span>·</span>
+			<a href="https://demo.simplelikes.com" target="_blank" rel="noopener">Demo</a>
+		</p>
+	</div>
+</footer>
+
+<style>
+	.custom-footer {
+		border-top: 1px solid var(--sl-color-gray-5);
+		padding: 1.5rem 1rem;
+		margin-top: 2rem;
+		text-align: center;
+		font-size: 0.875rem;
+		color: var(--sl-color-gray-3);
+	}
+
+	.footer-content {
+		max-width: 65rem;
+		margin: 0 auto;
+	}
+
+	.footer-content p {
+		margin: 0.25rem 0;
+	}
+
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.footer-links span {
+		color: var(--sl-color-gray-4);
+	}
+
+	.footer-title {
+		font-weight: 600;
+		color: var(--sl-color-text);
+	}
+
+	.custom-footer a {
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+	}
+
+	.custom-footer a:hover {
+		color: var(--sl-color-text-accent);
+		text-decoration: underline;
+	}
+</style>

@@ -1,0 +1,211 @@
+---
+title: Quick Start
+description: Display your first like button in minutes.
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+<LinkCard
+  title="Live Demo"
+  description="See all these examples working on the demo site."
+  href="https://demo.simplelikes.com"
+/>
+
+Now that you've installed Simple Likes, let's display a like button on your site.
+
+## Display a Like Button
+
+In any template where you have access to an entry, add:
+
+```blade
+{{ simple_like }}
+```
+
+This renders a fully functional like button with:
+- Heart icon that fills when liked
+- Like count
+- Click handling
+- Error messages
+
+## Display in a Collection Loop
+
+Works efficiently in collection loops - the JS component is defined once, buttons are just HTML:
+
+```blade
+{{ collection:articles }}
+    <article>
+        <h2>{{ title }}</h2>
+        <p>{{ content }}</p>
+        {{ simple_like }}
+    </article>
+{{ /collection:articles }}
+```
+
+## Use Vanilla JS Template
+
+If you're using the Vanilla JavaScript version (no Alpine.js), specify the vanilla template:
+
+```blade
+{{ simple_like template_from="simple-likes::like-button-vanilla" }}
+```
+
+## Display Just the Count
+
+To show only the like count without a button:
+
+```blade
+{{ simple_like:count }}
+```
+
+## Authenticated vs Guest Users
+
+Simple Likes handles both authenticated users and guests automatically:
+
+| User Type | Identification | Behavior |
+|-----------|----------------|----------|
+| **Authenticated** | User ID from your auth system | Like persists across devices/sessions |
+| **Guest** | Hash of IP + User Agent | Like persists for that browser/device |
+
+### Authenticated Users
+
+When a user is logged in (via Statamic's built-in auth or Laravel), their likes are tied to their user ID. This means:
+- Likes follow them across devices
+- Likes persist even if they clear cookies
+- You can show "liked by you" indicators reliably
+
+### Guest Users
+
+Guests are identified by a privacy-friendly hash:
+
+```php
+'guest_' . hash('sha256', $ip . '|' . $userAgent)
+```
+
+This means:
+- No cookies or tracking scripts required
+- Works on first page load
+- Different devices get unique identifiers
+- Raw IP addresses are never stored
+
+:::tip
+Guest likes are enabled per-entry via the blueprint. See [Blueprint Configuration](/reference/blueprint/) for details.
+:::
+
+## Show User's Liked Entries
+
+Display entries that a logged-in user has liked using the built-in tags. Perfect for profile pages or "My Favorites" sections.
+
+### Basic Usage
+
+```blade
+<h2>My Liked Articles</h2>
+{{ simple_like:my_likes collection="articles" limit="10" }}
+    <a href="{{ url }}">{{ title }}</a>
+    <span>Liked {{ liked_ago }}</span>
+{{ /simple_like:my_likes }}
+```
+
+### With Empty State Handling
+
+Use variable assignment to show a message when the user hasn't liked anything:
+
+```blade
+{{ my_articles = {simple_like:my_likes collection="articles" limit="5"} }}
+{{ if my_articles }}
+    <ul>
+    {{ my_articles }}
+        <li>
+            <a href="{{ url }}">{{ title }}</a>
+            <span class="date">Liked {{ liked_ago }}</span>
+        </li>
+    {{ /my_articles }}
+    </ul>
+{{ else }}
+    <p>You haven't liked any articles yet.</p>
+{{ /if }}
+```
+
+### Display Like Counts
+
+Show how many items the user has liked:
+
+```blade
+<div class="user-stats">
+    <p>Total likes: {{ simple_like:my_likes_count }}</p>
+    <p>Liked today: {{ simple_like:my_likes_count period="today" }}</p>
+    <p>Liked this week: {{ simple_like:my_likes_count period="week" }}</p>
+</div>
+```
+
+### Filter by Collection
+
+Display likes from specific collections:
+
+```blade
+<h3>Saved Houses ({{ simple_like:my_likes_count collection="houses" }})</h3>
+{{ simple_like:my_likes collection="houses" limit="5" }}
+    <a href="{{ url }}">{{ title }}</a>
+{{ /simple_like:my_likes }}
+
+<h3>Bookmarked Recipes ({{ simple_like:my_likes_count collection="recipes" }})</h3>
+{{ simple_like:my_likes collection="recipes" limit="5" }}
+    <a href="{{ url }}">{{ title }}</a>
+{{ /simple_like:my_likes }}
+```
+
+:::note
+These tags require an authenticated user. They return empty results for guests. See the [Tags Reference](/reference/tags/#simple_likemy_likes) for all available variables and parameters.
+:::
+
+## Beyond Likes: Wishlists, Favorites & Bookmarks
+
+Simple Likes isn't just for "liking" content. The same functionality works great for:
+
+| Use Case | Example |
+|----------|---------|
+| **Wishlist** | E-commerce product saves |
+| **Favorites** | Recipe collections, saved articles |
+| **Bookmarks** | "Read later" functionality |
+| **Shortlist** | Property listings, job postings |
+| **Watch list** | Track items for updates |
+
+### Customizing the Label
+
+Change the button text and icon in your [custom template](/templates/custom/):
+
+```blade
+{{# Wishlist style #}}
+<button @click="toggleLike()">
+    <span x-text="liked ? 'In Wishlist' : 'Add to Wishlist'"></span>
+</button>
+
+{{# Bookmark style #}}
+<button @click="toggleLike()">
+    <svg><!-- bookmark icon --></svg>
+    <span x-text="liked ? 'Saved' : 'Save'"></span>
+</button>
+```
+
+### Collection-Specific Styling
+
+Use different styles per collection by checking the collection handle:
+
+```blade
+{{ collection:products }}
+    {{ simple_like template_from="partials.wishlist-button" }}
+{{ /collection:products }}
+
+{{ collection:articles }}
+    {{ simple_like template_from="partials.bookmark-button" }}
+{{ /collection:articles }}
+```
+
+:::tip
+The underlying functionality is identical - only the presentation changes. This means you get all the same features (guest/auth support, rate limiting, analytics) regardless of what you call it.
+:::
+
+## What's Next?
+
+- Learn about the [Alpine.js Component](/javascript/alpine/) for customisation
+- Explore all [Display Tags](/reference/tags/) for advanced usage
+- Set up [Dashboard Widgets](/advanced/widgets/) for analytics

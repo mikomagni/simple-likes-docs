@@ -1,0 +1,11 @@
+/* Custom overrides */
+
+/* Logo styling */
+.site-title {
+	gap: 0 !important;
+}
+
+.site-title img {
+	width: auto !important;
+	height: 17px !important;
+}

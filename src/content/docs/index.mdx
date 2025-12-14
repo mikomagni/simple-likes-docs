@@ -1,0 +1,104 @@
+---
+title: Introduction
+description: A lightweight, performant likes system for Statamic CMS.
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <LinkCard
+    title="Statamic Marketplace"
+    description="Install Simple Likes from the official Statamic addon marketplace."
+    href="https://statamic.com/addons/graffio/simple-likes"
+  />
+  <LinkCard
+    title="Live Demo"
+    description="See Simple Likes in action with different use cases and custom templates."
+    href="https://demo.simplelikes.com"
+  />
+</CardGrid>
+
+Simple Likes is a lightweight addon that lets visitors like, save, or favourite your content. Use it for wishlists, bookmarks, shortlists, whatever fits your project. Fully customisable icons and styling. Includes analytics tags and multiple widgets to track engagement.
+
+## More Than Just Likes
+
+While it's called "Simple Likes," the addon is flexible enough for many use cases:
+
+| Use Case | Example |
+|----------|---------|
+| **Likes** | Blog posts, articles, comments |
+| **Favorites** | Recipe collections, saved articles |
+| **Wishlist** | E-commerce product saves |
+| **Bookmarks** | "Read later" functionality |
+| **Shortlist** | Property listings, job candidates |
+
+The presentation is fully customisable - change the icon, label, and styling to match your needs.
+
+## What You Get
+
+- **Like/Unlike buttons** for any entry in any collection
+- **Guest & authenticated user support** with privacy-friendly tracking
+- **Detailed engagement analytics** with Antlers tags for popular content, recent activity, and weekly trends
+- **Responsive dashboard widgets** for at-a-glance stats
+- **Spam protection** with multi-layer rate limiting
+- **Flexible database** support (SQLite, MySQL, MariaDB, PostgreSQL)
+- **Auto CSRF refresh** - handles expired tokens gracefully
+
+## Quick Install
+
+```bash
+composer require mikomagni/simple-likes
+```
+
+Then add the CSRF meta tag to your layout and include the JavaScript component. [Read the full installation guide →](/getting-started/installation/)
+
+## Key Concepts
+
+### Dual-Field Architecture
+
+Simple Likes separates "boost" likes from real interactions:
+
+| Storage | Field | Description |
+|---------|-------|-------------|
+| **Entry Field** | `simple_likes` | Boost Count - editable by admins |
+| **Database Table** | `simple_likes` rows | Real interactions from users |
+
+**Total Likes = Boost Count + Database Row Count**
+
+This means:
+- Admins can "seed" entries with a starting like count
+- Real likes are tracked separately for analytics
+- Changing the boost doesn't affect real like data
+- The Control Panel shows both values distinctly
+
+### Privacy-Friendly Guest Tracking
+
+Guests are identified by a hash of their IP address + User Agent:
+
+```php
+'guest_' . hash('sha256', $request->ip() . '|' . $request->userAgent())
+```
+
+This approach:
+- Gives different devices on the same network unique identifiers
+- Prevents family/office members from seeing each other's likes
+- Uses no cookies or tracking scripts
+- Works on first page load (no JavaScript required for identification)
+
+:::tip
+Unlike cookie-based solutions, Simple Likes works immediately without consent banners and respects user privacy by never storing raw IP addresses.
+:::
+
+## Requirements
+
+- **PHP**: ^8.2
+- **Statamic**: ^5.0
+- **Laravel**: ^11.0
+
+## Next Steps
+
+Ready to add likes to your site? Let's [install the addon](/getting-started/installation/).
+
+:::tip[See it in action]
+Visit the [live demo](https://demo.simplelikes.com) to explore different use cases including news articles, property listings, product wishlists, and recipe bookmarks.
+:::
