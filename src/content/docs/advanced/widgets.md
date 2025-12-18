@@ -15,10 +15,10 @@ Add widgets to `config/statamic/cp.php`:
 
 ```php
 'widgets' => [
-    ['type' => 'overview_widget', 'width' => 50],
-    ['type' => 'recent_activity_widget', 'width' => 50],
-    ['type' => 'popular_entries_widget', 'width' => 50],
-    ['type' => 'top_users_widget', 'width' => 50],
+    ['type' => 'overview', 'width' => 50],
+    ['type' => 'top_users', 'width' => 50],
+    ['type' => 'recent_activity', 'width' => 100],
+    ['type' => 'popular_entries', 'width' => 100],
 ],
 ```
 
@@ -29,7 +29,7 @@ Add widgets to `config/statamic/cp.php`:
 Shows total statistics and breakdowns.
 
 ```php
-['type' => 'overview_widget', 'width' => 50]
+['type' => 'overview', 'width' => 50]
 ```
 
 **Displays:**
@@ -40,12 +40,34 @@ Shows total statistics and breakdowns.
 - This week's likes
 - This month's likes
 
+
+### Top Users Widget
+
+Shows users who have liked the most.
+
+```php
+['type' => 'top_users', 'width' => 50]
+```
+
+**Displays:**
+- User name/email (clickable for members)
+- Total likes given
+- Member vs Guest indicator
+
+**Configuration:**
+```php
+// config/simple-likes.php
+'widget' => [
+    'top_users_limit' => 5,
+],
+```
+
 ### Recent Activity Widget
 
 Shows the latest like activity.
 
 ```php
-['type' => 'recent_activity_widget', 'width' => 50]
+['type' => 'recent_activity', 'width' => 50]
 ```
 
 **Displays:**
@@ -67,7 +89,7 @@ Shows the latest like activity.
 Shows most liked entries.
 
 ```php
-['type' => 'popular_entries_widget', 'width' => 50]
+['type' => 'popular_entries', 'width' => 50]
 ```
 
 **Displays:**
@@ -88,26 +110,6 @@ Shows most liked entries.
 - `'total'`: Sort by total likes (boost + real)
 - `'interactions'` or `'real'`: Sort by real interactions only
 
-### Top Users Widget
-
-Shows users who have liked the most.
-
-```php
-['type' => 'top_users_widget', 'width' => 50]
-```
-
-**Displays:**
-- User name/email (clickable for members)
-- Total likes given
-- Member vs Guest indicator
-
-**Configuration:**
-```php
-// config/simple-likes.php
-'widget' => [
-    'top_users_limit' => 5,
-],
-```
 
 ## Widget Sizes
 
@@ -128,7 +130,7 @@ Widgets support standard Statamic sizes:
 
 ```php
 'widgets' => [
-    ['type' => 'overview_widget', 'width' => 100],
+    ['type' => 'overview', 'width' => 100],
 ],
 ```
 
@@ -136,10 +138,10 @@ Widgets support standard Statamic sizes:
 
 ```php
 'widgets' => [
-    ['type' => 'overview_widget', 'width' => 50],
-    ['type' => 'recent_activity_widget', 'width' => 50],
-    ['type' => 'popular_entries_widget', 'width' => 50],
-    ['type' => 'top_users_widget', 'width' => 50],
+    ['type' => 'overview', 'width' => 50],
+    ['type' => 'top_users', 'width' => 50],
+    ['type' => 'recent_activity', 'width' => 100],
+    ['type' => 'popular_entries', 'width' => 100],
 ],
 ```
 
@@ -152,8 +154,8 @@ Widgets support standard Statamic sizes:
     ['type' => 'collection', 'collection' => 'articles', 'width' => 50],
 
     // Simple Likes widgets
-    ['type' => 'overview_widget', 'width' => 50],
-    ['type' => 'popular_entries_widget', 'width' => 50],
+    ['type' => 'overview', 'width' => 50],
+    ['type' => 'popular', 'width' => 50],
 ],
 ```
 
