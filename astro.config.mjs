@@ -47,6 +47,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Default Templates', slug: 'templates/default' },
 						{ label: 'Custom Templates', slug: 'templates/custom' },
+						{ label: 'Wishlist', slug: 'templates/wishlist' },
 					],
 				},
 				{
@@ -66,6 +67,7 @@ export default defineConfig({
 						{ label: 'Overview', slug: 'api/overview' },
 						{ label: 'Toggle Like', slug: 'api/toggle' },
 						{ label: 'Entry Stats', slug: 'api/entry-stats' },
+						{ label: 'Wishlist', slug: 'api/wishlist' },
 						{ label: 'Global Stats', slug: 'api/global-stats' },
 						{ label: 'Popular Entries', slug: 'api/popular' },
 						{ label: 'Recent Activity', slug: 'api/activity' },

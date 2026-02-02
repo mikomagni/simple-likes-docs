@@ -11,6 +11,7 @@ Simple Likes provides a REST API for toggling likes and retrieving statistics. A
 |--------|----------|-------------|
 | POST | `/!/simple-likes/{id}/toggle` | Toggle like/unlike for an entry |
 | GET | `/!/simple-likes/status` | Get count and liked state (supports batching) |
+| GET | `/!/simple-likes/wishlist` | Get current user's liked entries |
 | GET | `/!/simple-likes/global-stats` | Get site-wide statistics |
 | GET | `/!/simple-likes/popular` | Get popular entries |
 | GET | `/!/simple-likes/activity` | Get recent activity |

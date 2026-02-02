@@ -162,3 +162,71 @@ Global statistics cache warmed.
 Successfully warmed cache for 234 entries.
 ```
 
+---
+
+## simple-likes:prune-guests
+
+Removes old guest likes to prevent database bloat. Guest likes are identified by IP + browser fingerprint and can accumulate over time.
+
+### Basic Usage
+
+```bash
+# Delete guest likes older than 30 days (default)
+php please simple-likes:prune-guests
+
+# Delete guest likes older than 7 days
+php please simple-likes:prune-guests --days=7
+
+# Preview what would be deleted (dry run)
+php please simple-likes:prune-guests --days=30 --dry-run
+```
+
+### Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--days=N` | 30 | Delete guest likes older than N days |
+| `--dry-run` | false | Show what would be deleted without actually deleting |
+
+### Example Output
+
+```
+Deleted 1,234 guest likes older than 30 days.
+```
+
+With `--dry-run`:
+
+```
+[Dry run] Would delete 1,234 guest likes older than 30 days.
+```
+
+### Scheduling
+
+Add to `routes/console.php` to run automatically:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+// Prune guest likes older than 30 days, weekly
+Schedule::command('simple-likes:prune-guests --days=30')
+    ->weekly();
+
+// Or prune more aggressively for high-traffic sites
+Schedule::command('simple-likes:prune-guests --days=7')
+    ->daily();
+```
+
+For Laravel 10 or earlier, add to `app/Console/Kernel.php`:
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('simple-likes:prune-guests --days=30')
+        ->weekly();
+}
+```
+
+:::tip
+Run with `--dry-run` first to see how many records would be affected before scheduling automatic cleanup.
+:::
+

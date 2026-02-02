@@ -61,7 +61,11 @@ If your site already uses Alpine.js, add the component using one of these method
 import '../../vendor/mikomagni/simple-likes/resources/js/simple-likes.js';
 ```
 
-*Or include via script tag in your layout:*
+*Or include via script tag in your layout (requires publishing assets first):*
+
+```bash
+php artisan vendor:publish --tag=simple-likes-js
+```
 
 ```html
 <script src="/vendor/simple-likes/js/simple-likes.js" defer></script>
@@ -77,7 +81,11 @@ If your site doesn't use Alpine.js:
 import '../../vendor/mikomagni/simple-likes/resources/js/simple-likes-vanilla.js';
 ```
 
-*Or include via script tag in your layout:*
+*Or include via script tag in your layout (requires publishing assets first):*
+
+```bash
+php artisan vendor:publish --tag=simple-likes-js
+```
 
 ```html
 <script src="/vendor/simple-likes/js/simple-likes-vanilla.js" defer></script>
@@ -87,22 +95,30 @@ import '../../vendor/mikomagni/simple-likes/resources/js/simple-likes-vanilla.js
 
 The addon includes optional styling. Choose one method:
 
-*Option 1: Import in your CSS file:*
-
-```css
-@import '/vendor/simple-likes/css/simple-likes.css';
-```
-
-*Option 2: Import in your JS (with Vite/bundler):*
+*Option 1: Import in your JS (with Vite/bundler) - Recommended:*
 
 ```javascript
 import '../../vendor/mikomagni/simple-likes/resources/css/simple-likes.css';
 ```
 
-*Option 3: Link tag in HTML:*
+*Option 2: Link tag in HTML (requires publishing assets first):*
+
+```bash
+php artisan vendor:publish --tag=simple-likes-frontend-css
+```
 
 ```html
 <link rel="stylesheet" href="/vendor/simple-likes/css/simple-likes.css">
+```
+
+*Option 3: Import in your CSS file (requires publishing assets first):*
+
+```bash
+php artisan vendor:publish --tag=simple-likes-frontend-css
+```
+
+```css
+@import '/vendor/simple-likes/css/simple-likes.css';
 ```
 
 ### Step 6: Add Fieldtype to Blueprint

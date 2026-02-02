@@ -349,3 +349,82 @@ Returns the count of likes given by the currently logged-in user. Useful for dis
 :::note
 This tag requires an authenticated user. Returns `0` for guests.
 :::
+
+---
+
+## `{{ simple_like:wishlist }}`
+
+Returns a list of liked entries for the current user. Works for both guests and authenticated users.
+
+```blade
+{{ wishlist = {simple_like:wishlist limit="10"} }}
+{{ if wishlist | is_empty }}
+    <p>Your wishlist is empty.</p>
+{{ else }}
+    <ul>
+        {{ wishlist }}
+            <li>
+                <a href="{{ url }}">{{ title }}</a>
+                <span>{{ liked_ago }}</span>
+            </li>
+        {{ /wishlist }}
+    </ul>
+{{ /if }}
+```
+
+**Available Variables (per entry):**
+
+| Variable | Description |
+|----------|-------------|
+| `entry_id` | Entry UUID |
+| `title` | Entry title |
+| `url` | Entry URL |
+| `collection` | Collection handle |
+| `liked_at` | Carbon date object |
+| `liked_ago` | Human-readable time (e.g., "2 days ago") |
+| `entry` | Full entry object (for accessing other fields) |
+
+**Parameters:**
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `limit` | 10 | Maximum items to return |
+| `collection` | all | Filter by collection handle |
+
+:::tip
+Guest wishlists are identified by IP address + browser fingerprint (no cookies required). They are browser/device specific. Users who want persistent wishlists across devices should authenticate.
+:::
+
+---
+
+## `{{ simple_like:wishlist_count }}`
+
+Returns the count of wishlist items for the current user. Works for both guests and authenticated users.
+
+```blade
+{{# Total wishlist count #}}
+<span class="badge">{{ simple_like:wishlist_count }}</span>
+
+{{# Count for specific collection #}}
+<span>{{ simple_like:wishlist_count collection="products" }} products saved</span>
+```
+
+**Parameters:**
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `collection` | all | Filter by collection handle |
+
+---
+
+## `{{ simple_like:is_guest }}`
+
+Returns `true` if the current user is a guest (not authenticated). Useful for showing login prompts.
+
+```blade
+{{ if {simple_like:is_guest} }}
+    <p>
+        <a href="/login">Log in</a> to save your wishlist permanently across devices.
+    </p>
+{{ /if }}
+```
